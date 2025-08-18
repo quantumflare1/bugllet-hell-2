@@ -24,7 +24,6 @@ export default class RenderList {
         console.log("added")
         while (true) {
             let mid = (l + r) >> 1;
-            console.log(mid)
             if (element.z < this.#values[mid].z)
                 r = mid;
             else if (element.z > this.#values[mid].z)

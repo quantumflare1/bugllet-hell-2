@@ -5,15 +5,16 @@ import KeyboardInput from "../../core/keyboard_component.mjs";
 import Position from "../../core/position_component.mjs";
 import Stage from "../../core/stage.mjs";
 import Velocity from "../../core/velocity_component.mjs";
+import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
 
 const BASE_MAX_VEL = 3;
 const ACCELERATION = 1;
 const BASE_FOCUS_VEL = 1;
 
-const LEFT_BOUND = 280;
-const RIGHT_BOUND = 1000;
-const UPPER_BOUND = 0;
-const LOWER_BOUND = 720;
+const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2;
+const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2;
+const UPPER_BOUND = HEIGHT / 2 - FIELD_HEIGHT / 2;
+const LOWER_BOUND = HEIGHT / 2 + FIELD_HEIGHT / 2;
 
 export default class PlayerLogic extends Component {
     pos;

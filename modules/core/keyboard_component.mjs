@@ -7,14 +7,12 @@ export default class KeyboardInput extends Component {
         super();
 
         addEventListener("keydown", (e) => {
-            e.preventDefault();
             if (!e.repeat) {
                 this.#heldKeys.add(e.key);
                 this.notify(e.key);
             }
         });
         addEventListener("keyup", (e) => {
-            e.preventDefault();
             if (!e.repeat) {
                 this.#heldKeys.delete(e.key);
                 this.notify(e.key);
