@@ -1,4 +1,4 @@
-import ColliderVisual from "../collider_visual_component.mjs";
+import ColliderVisual from "./component/collider_visual_component.mjs";
 import Collider from "../core/collision_component.mjs";
 import Entity from "../core/entity.mjs";
 import KeyboardInput from "../core/keyboard_component.mjs";
@@ -17,7 +17,7 @@ const HITBOX_RADIUS = 10;
  * @param {number} y The starting y coordinate of the player.
  */
 export default function createPlayer(scene, x, y) {
-    const entity = new Entity();
+    const entity = new Entity(scene);
     entity.addComponent(new Position(x, y));
     entity.addComponent(new Velocity(entity));
     entity.addComponent(new Line(entity, 0, 0, 0, 0));
@@ -27,11 +27,7 @@ export default function createPlayer(scene, x, y) {
     const input = new KeyboardInput();
     entity.addComponent(input);
 
-    entity.addComponent(new PlayerLogic(entity));
+    entity.addComponent(new PlayerLogic(entity, scene));
 
     scene.addEntity(entity);
-}
-
-function handleInput(comp, key) {
-    console.log(key);
 }

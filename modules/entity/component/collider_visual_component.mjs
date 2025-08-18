@@ -1,6 +1,6 @@
-import Collider from "./core/collision_component.mjs";
-import Entity from "./core/entity.mjs";
-import Renderable from "./core/render_component.mjs";
+import Collider from "../../core/collision_component.mjs";
+import Entity from "../../core/entity.mjs";
+import Renderable from "../../core/render_component.mjs";
 
 export default class ColliderVisual extends Renderable {
     collider;

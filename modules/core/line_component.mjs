@@ -27,24 +27,30 @@ export default class Line extends Component {
         this.recalculateLength();
     }
     /**
-     * Finds the closest distance between a point and a line segment.
-     * @param {number} ptX 
-     * @param {number} ptY 
-     * @param {Line} other 
-     * @returns The closest distance between a point and line segment.
+     * Finds the closest distance between two line segments.
+     * @param {Line} other The line segment to check against.
+     * @returns The closest distance.
      */
-    distToSegment(ptX, ptY, other) {
+    distToSegment(other) {
+        return Math.min(this.#ptDistToSegment(this.#x1 + this.ref.getX(), this.#y1 + this.ref.getY(), other),
+            this.#ptDistToSegment(this.#x2 + this.ref.getX(), this.#y2 + this.ref.getY(), other));
+    }
+    #ptDistToSegment(ptX, ptY, other) {
+        const absOtherX1 = other.#x1 + other.ref.getX();
+        const absOtherY1 = other.#x1 + other.ref.getY();
+        const absOtherX2 = other.#x1 + other.ref.getX();
+        const absOtherY2 = other.#x1 + other.ref.getY();
         if (other.length === 0)
-            return Math.sqrt(sqDist(ptX, ptY, other.#x1, other.#y1));
+            return Math.sqrt(sqDist(ptX, ptY, absOtherX1, absOtherY1));
 
-        const apx = ptX - other.#x1;
-        const apy = ptY - other.#y1;
+        const apx = ptX - absOtherX1;
+        const apy = ptY - absOtherY1;
         const abx = other.#x2 - other.#x1;
         const aby = other.#y2 - other.#y1;
-        const nearestLinePt = (apx * abx + apy * aby) / sqLength;
-        if (nearestLinePt < 0) return Math.sqrt(sqDist(ptX, ptY, other.#x1, other.#y1));
-        if (nearestLinePt > 1) return Math.sqrt(sqDist(ptX, ptY, other.#x2, other.#y2));
-        return Math.sqrt(sqDist(ptX, ptY, other.#x1 + nearestLinePt * abx, other.#y1 + nearestLinePt * aby));
+        const nearestLinePt = (apx * abx + apy * aby) / (other.length ** 2);
+        if (nearestLinePt < 0) return Math.sqrt(sqDist(ptX, ptY, absOtherX1, absOtherY1));
+        if (nearestLinePt > 1) return Math.sqrt(sqDist(ptX, ptY, absOtherX2, absOtherY2));
+        return Math.sqrt(sqDist(ptX, ptY, absOtherX1 + nearestLinePt * abx, absOtherY1 + nearestLinePt * aby));
     }
     getX1() {
         return this.#x1;
