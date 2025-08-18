@@ -8,7 +8,7 @@ import Scene from "../core/scene.mjs";
 import Velocity from "../core/velocity_component.mjs";
 import PlayerLogic from "./component/player_component.mjs";
 
-const HITBOX_RADIUS = 40;
+const HITBOX_RADIUS = 10;
 
 /**
  * Creates a new player.

@@ -15,6 +15,9 @@ function game(ms) {
         lastTickTime += MS_PER_TICK;
         timesTicked++;
     }
+    if (timesTicked === MAX_TICK_SPEEDUP) {
+        lastTickTime = ms;
+    }
 
     Renderer.render(scene);
 
