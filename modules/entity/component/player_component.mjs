@@ -7,9 +7,11 @@ import Stage from "../../core/stage.mjs";
 import Velocity from "../../core/velocity_component.mjs";
 import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
 
-const BASE_MAX_VEL = 3;
-const ACCELERATION = 1;
-const BASE_FOCUS_VEL = 1;
+const BASE_MAX_VEL = 1.5;
+const ACCELERATION = 0.5;
+const BASE_FOCUS_VEL = 0.6;
+const BASE_LIVES = 30;
+const BASE_INV_TIME = 40;
 
 const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2;
 const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2;
@@ -21,7 +23,10 @@ export default class PlayerLogic extends Component {
     vel;
     input;
     collider;
-    evilBullets;
+    #evilBullets;
+    #lives = BASE_LIVES;
+    #invTime = -1;
+    #alive = true;
 
     /**
      * Creates a new PlayerLogic.
@@ -34,9 +39,11 @@ export default class PlayerLogic extends Component {
         this.vel = parent.getComponent(Velocity);
         this.input = parent.getComponent(KeyboardInput);
         this.collider = parent.getComponent(Collider);
-        this.evilBullets = scene.bulletManager;
+        this.#evilBullets = scene.bulletManager;
     }
     tick() {
+        if (!this.#alive) return;
+
         if (this.input.holdingKey("ArrowLeft")) this.vel.addX(-ACCELERATION);
         else {
             if (this.vel.getX() < 0) {
@@ -85,10 +92,20 @@ export default class PlayerLogic extends Component {
         if (this.pos.getY() - rad < UPPER_BOUND) this.pos.setY(UPPER_BOUND + rad);
         if (this.pos.getY() + rad > LOWER_BOUND) this.pos.setY(LOWER_BOUND - rad);
 
-        for (const i of this.evilBullets) {
+        for (const i of this.#evilBullets) {
             if (this.collider.collidesWith(i)) {
-                console.log("EEK");
+                this.#lives--;
+                this.#invTime = BASE_INV_TIME;
+                this.collider.toggle(false);
+                this.notify();
+                break;
             }
         }
+        if (this.#lives === 0) this.#alive = false;
+        if (this.#invTime >= 0) this.#invTime--;
+        if (this.#invTime === 0) this.collider.toggle(true);
+    }
+    getLives() {
+        return this.#lives;
     }
 }

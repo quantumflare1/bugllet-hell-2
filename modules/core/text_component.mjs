@@ -3,9 +3,9 @@ import Position from "./position_component.mjs";
 import Renderable from "./render_component.mjs";
 
 export default class Text extends Renderable {
-    text;
+    #text;
     pos;
-    align;
+    #align;
 
     /**
      * Creates a new Text.
@@ -17,13 +17,19 @@ export default class Text extends Renderable {
     constructor(parent, z, text, align) {
         super(z);
         this.pos = parent.getComponent(Position);
-        this.text = text;
-        this.align = align;
+        this.#text = text;
+        this.#align = align;
     }
     render(ctx) {
         ctx.font = "20px serif"
         ctx.fillStyle = "black";
-        ctx.textAlign = this.align;
-        ctx.fillText(this.text, this.pos.getX(), this.pos.getY());
+        ctx.textAlign = this.#align;
+        ctx.fillText(this.#text, this.pos.getX(), this.pos.getY());
+    }
+    getText() {
+        return this.#text;
+    }
+    setText(newText) {
+        this.#text = newText;
     }
 }

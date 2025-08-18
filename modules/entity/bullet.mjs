@@ -20,4 +20,5 @@ export default function createBullet(scene, x, y, id) {
     entity.addComponent(new ColliderVisual(entity));
 
     scene.addBullet(entity);
+    return entity;
 }

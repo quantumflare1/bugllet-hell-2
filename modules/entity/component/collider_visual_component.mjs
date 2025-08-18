@@ -16,6 +16,7 @@ export default class ColliderVisual extends Renderable {
     render(ctx) {
         ctx.lineCap = "round";
         ctx.strokeStyle = "red";
+        if (!this.collider.getState()) ctx.strokeStyle = "rgba(255, 0, 0, .5)";
         ctx.lineWidth = this.collider.getRadius() << 1;
         const line = this.collider.line;
 

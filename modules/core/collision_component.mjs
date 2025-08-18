@@ -5,6 +5,7 @@ import Line from "./line_component.mjs";
 export default class Collider extends Component {
     line;
     #radius;
+    #enabled = true;
 
     /**
      * Creates a new Collider.
@@ -22,6 +23,7 @@ export default class Collider extends Component {
      */
     collidesWith(other) {
         // implement collision logic here
+        if (!this.#enabled) return false;
         const radSum = this.#radius + other.#radius;
         if (this.line.distToSegment(other.line) < radSum) {
             this.notify();
@@ -36,5 +38,12 @@ export default class Collider extends Component {
     }
     setRadius(rad) {
         this.#radius = rad;
+    }
+    toggle(state) {
+        this.#enabled = state;
+        this.notify();
+    }
+    getState() {
+        return this.#enabled;
     }
 }

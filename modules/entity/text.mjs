@@ -8,4 +8,5 @@ export default function createText(scene, x, y, text, align) {
     entity.addComponent(new Text(entity, 1, text, align));
 
     scene.addEntity(entity);
+    return entity;
 }
