@@ -22,8 +22,17 @@ export default class Collider extends Component {
      */
     collidesWith(other) {
         // implement collision logic here
-        this.notify();
-        other.notify();
+        const radSum = this.#radius + other.#radius;
+        if (this.line.distToSegment(this.line.getX1(), this.line.getY1(), other) < radSum ||
+        this.line.distToSegment(this.line.getX2(), this.line.getY2(), other) < radSum ||
+        this.line.distToSegment(other.line.getX1(), other.line.getY1(), this) < radSum ||
+        this.line.distToSegment(other.line.getX2(), other.line.getY2(), this) < radSum) {
+            this.notify();
+            other.notify();
+
+            return true;
+        }
+        return false;
     }
     getRadius() {
         return this.#radius;

@@ -6,6 +6,6 @@ const scene = new Scene();
 
 scene.addEntity(createRect());
 scene.addEntity(createRect(280, 0, 720, 720, 1, "gray"));
-createPlayer(scene, 400, 400);
+createPlayer(scene, 640, 640);
 
 export default scene;

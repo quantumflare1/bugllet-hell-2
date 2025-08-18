@@ -33,66 +33,49 @@ export default class PlayerLogic extends Component {
         this.pos = parent.getComponent(Position);
         this.vel = parent.getComponent(Velocity);
         this.input = parent.getComponent(KeyboardInput);
-        this.input.addObserver(this.handleInput.bind(this));
         this.collider = parent.getComponent(Collider);
     }
-    handleInput(comp, key) {
-        switch (key) {
-            case "ArrowUp":
-                this.upPressed = !this.upPressed;
-                break;
-            case "ArrowDown":
-                this.downPressed = !this.downPressed;
-                break;
-            case "ArrowLeft":
-                this.leftPressed = !this.leftPressed;
-                break;
-            case "ArrowRight":
-                this.rightPressed = !this.rightPressed;
-                break;
-        }
-    }
     tick() {
-        if (this.leftPressed) {
+        if (this.input.holdingKey("ArrowLeft")) {
             this.vel.addX(-ACCELERATION);
         }
         else {
             if (this.vel.getX() < 0) {
                 this.vel.addX(ACCELERATION);
-                if (!this.rightPressed && this.vel.getX() > 0) {
+                if (!this.input.holdingKey("ArrowRight") && this.vel.getX() > 0) {
                     this.vel.setX(0);
                 }
             }
         }
-        if (this.rightPressed) {
+        if (this.input.holdingKey("ArrowRight")) {
             this.vel.addX(ACCELERATION);
         }
         else {
             if (this.vel.getX() > 0) {
                 this.vel.addX(-ACCELERATION);
-                if (!this.leftPressed && this.vel.getX() < 0) {
+                if (!this.input.holdingKey("ArrowLeft") && this.vel.getX() < 0) {
                     this.vel.setX(0);
                 }
             }
         }
-        if (this.upPressed) {
+        if (this.input.holdingKey("ArrowUp")) {
             this.vel.addY(-ACCELERATION);
         }
         else {
             if (this.vel.getY() < 0) {
                 this.vel.addY(ACCELERATION);
-                if (!this.downPressed && this.vel.getY() > 0) {
+                if (!this.input.holdingKey("ArrowDown") && this.vel.getY() > 0) {
                     this.vel.setY(0);
                 }
             }
         }
-        if (this.downPressed) {
+        if (this.input.holdingKey("ArrowDown")) {
             this.vel.addY(ACCELERATION);
         }
         else {
             if (this.vel.getY() > 0) {
                 this.vel.addY(-ACCELERATION);
-                if (!this.upPressed && this.vel.getY() < 0) {
+                if (!this.input.holdingKey("ArrowUp") && this.vel.getY() < 0) {
                     this.vel.setY(0);
                 }
             }
