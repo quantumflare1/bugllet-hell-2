@@ -1,7 +1,7 @@
-import Dimension from "./dimension_component.mjs";
-import Entity from "./entity.mjs";
-import Position from "./position_component.mjs";
-import Renderable from "./render_component.mjs";
+import Dimension from "../../core/dimension_component.mjs";
+import Entity from "../../core/entity.mjs";
+import Position from "../../core/position_component.mjs";
+import Renderable from "../../core/render_component.mjs";
 
 export default class BlockColour extends Renderable {
     col;
