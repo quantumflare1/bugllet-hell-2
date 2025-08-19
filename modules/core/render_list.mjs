@@ -56,7 +56,7 @@ export default class RenderList {
             let mid = (l + r) >> 1;
             if (element.z < this.#values[mid].z)
                 r = mid;
-            else if (priority > this.#values[mid].z)
+            else if (element.z > this.#values[mid].z)
                 l = mid;
             else {
                 this.#values.splice(mid, 1);

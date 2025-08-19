@@ -5,6 +5,7 @@ import Stage from "./core/stage.mjs";
 import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "./core/globals.mjs";
 import createLifeDisplay from "./entity/life_display.mjs";
 import PlayerLogic from "./entity/component/player_component.mjs";
+import createEnemy from "./entity/enemy.mjs";
 
 const scene = new Stage();
 
@@ -13,5 +14,6 @@ scene.addEntity(createRect(WIDTH / 2 - FIELD_WIDTH / 2, HEIGHT / 2 - FIELD_HEIGH
 const player = createPlayer(scene, WIDTH / 2, HEIGHT / 2 + FIELD_HEIGHT / 2 - 20);
 createBullet(scene, WIDTH / 2, HEIGHT / 2);
 createLifeDisplay(scene, WIDTH / 2 + FIELD_WIDTH / 2 + 5, 65, player.getComponent(PlayerLogic));
+createEnemy(scene, WIDTH / 2, 40);
 
 export default scene;

@@ -23,10 +23,10 @@ export default class Scene {
      */
     removeEntity(entity) {
         this.entities.delete(entity);
-        for (const comp of entity) {
-            if (comp instanceof Renderable)
-                this.renderList.delete(comp);
-        }
+        entity.components.forEach((v) => {
+            if (v instanceof Renderable)
+                this.renderList.delete(v);
+        });
     }
     tick() {
         for (const i of this.entities) {

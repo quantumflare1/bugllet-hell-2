@@ -6,6 +6,7 @@ import Position from "../../core/position_component.mjs";
 import Stage from "../../core/stage.mjs";
 import Velocity from "../../core/velocity_component.mjs";
 import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
+import createProjectile from "../projectile.mjs";
 
 const BASE_MAX_VEL = 1.5;
 const ACCELERATION = 0.5;
@@ -24,6 +25,7 @@ export default class PlayerLogic extends Component {
     input;
     collider;
     #evilBullets;
+    #goodBullets;
     #lives = BASE_LIVES;
     #invTime = -1;
     #alive = true;
@@ -40,10 +42,16 @@ export default class PlayerLogic extends Component {
         this.input = parent.getComponent(KeyboardInput);
         this.collider = parent.getComponent(Collider);
         this.#evilBullets = scene.bulletManager;
+        this.#goodBullets = scene.projectileManager;
+
+        this.createProjectile = (id) => {
+            createProjectile(scene, this.pos.getX(), this.pos.getY(), id);
+        }
     }
     tick() {
         if (!this.#alive) return;
 
+        // movement
         if (this.input.holdingKey("ArrowLeft")) this.vel.addX(-ACCELERATION);
         else {
             if (this.vel.getX() < 0) {
@@ -92,6 +100,7 @@ export default class PlayerLogic extends Component {
         if (this.pos.getY() - rad < UPPER_BOUND) this.pos.setY(UPPER_BOUND + rad);
         if (this.pos.getY() + rad > LOWER_BOUND) this.pos.setY(LOWER_BOUND - rad);
 
+        // collision
         for (const i of this.#evilBullets) {
             if (this.collider.collidesWith(i)) {
                 this.#lives--;
@@ -104,6 +113,11 @@ export default class PlayerLogic extends Component {
         if (this.#lives === 0) this.#alive = false;
         if (this.#invTime >= 0) this.#invTime--;
         if (this.#invTime === 0) this.collider.toggle(true);
+
+        // firing
+        if (this.input.holdingKey("z") || this.input.holdingKey("Shift") && this.input.holdingKey("Z")) {
+            this.createProjectile(0 /* whatever */);
+        }
     }
     getLives() {
         return this.#lives;

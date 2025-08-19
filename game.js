@@ -26,7 +26,9 @@ function game(ms) {
         console.log(`TPS: ${tps} FPS: ${fps}`);
         tps = 0;
         fps = 0;
-        lastTpsUpdate += 1000;
+
+        if (ms - lastTpsUpdate > MAX_TICK_SPEEDUP * 1000) lastTpsUpdate = ms;
+        else lastTpsUpdate += 1000;
     }
 
     Renderer.render(scene);
