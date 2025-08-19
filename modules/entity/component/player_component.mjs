@@ -24,8 +24,7 @@ export default class PlayerLogic extends Component {
     vel;
     input;
     collider;
-    #evilBullets;
-    #goodBullets;
+    #bullets;
     #lives = BASE_LIVES;
     #invTime = -1;
     #alive = true;
@@ -41,8 +40,7 @@ export default class PlayerLogic extends Component {
         this.vel = parent.getComponent(Velocity);
         this.input = parent.getComponent(KeyboardInput);
         this.collider = parent.getComponent(Collider);
-        this.#evilBullets = scene.bulletManager;
-        this.#goodBullets = scene.projectileManager;
+        this.#bullets = scene.colliderManager;
 
         this.createProjectile = (id) => {
             createProjectile(scene, this.pos.getX(), this.pos.getY(), id);
@@ -101,8 +99,8 @@ export default class PlayerLogic extends Component {
         if (this.pos.getY() + rad > LOWER_BOUND) this.pos.setY(LOWER_BOUND - rad);
 
         // collision
-        for (const i of this.#evilBullets) {
-            if (this.collider.collidesWith(i)) {
+        for (const i of this.#bullets) {
+            if (i.getLayer() === this.collider.getLayer() && this.collider.collidesWith(i)) {
                 this.#lives--;
                 this.#invTime = BASE_INV_TIME;
                 this.collider.toggle(false);

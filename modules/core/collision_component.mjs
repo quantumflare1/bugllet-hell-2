@@ -4,6 +4,7 @@ import Line from "./line_component.mjs";
 
 export default class Collider extends Component {
     line;
+    #layer;
     #radius;
     #enabled = true;
 
@@ -12,9 +13,10 @@ export default class Collider extends Component {
      * @param {Entity} parent The entity this component is attached to.
      * @param {number} rad The radius of this collider.
      */
-    constructor(parent, rad) {
+    constructor(parent, rad, layer = 0) {
         super();
         this.#radius = rad;
+        this.#layer = layer;
         this.line = parent.getComponent(Line);
     }
     /**
@@ -45,5 +47,8 @@ export default class Collider extends Component {
     }
     getState() {
         return this.#enabled;
+    }
+    getLayer() {
+        return this.#layer;
     }
 }

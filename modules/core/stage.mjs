@@ -2,24 +2,16 @@ import Collider from "./collision_component.mjs";
 import Scene from "./scene.mjs";
 
 export default class Stage extends Scene {
-    bulletManager = new Set();
-    enemyManager = new Set();
-    projectileManager = new Set();
+    colliderManager = new Set();
 
     /**
-     * Adds a bullet to this stage.
-     * @param {Entity} bullet A bullet.
+     * Adds a collider to this stage.
+     * @param {Collider} coll A collider.
      */
-    addBullet(bullet) {
-        super.addEntity(bullet);
-        this.bulletManager.add(bullet.getComponent(Collider));
+    addCollider(coll) {
+        this.colliderManager.add(coll);
     }
-    addEnemy(enemy) {
-        super.addEntity(enemy);
-        this.enemyManager.add(enemy.getComponent(Collider));
-    }
-    addProjectile(proj) {
-        super.addEntity(proj);
-        this.projectileManager.add(proj.getComponent(Collider));
+    removeCollider(coll) {
+        this.colliderManager.delete(coll);
     }
 }

@@ -1,11 +1,11 @@
-import { Component } from "react";
 import Entity from "../../core/entity.mjs";
 import Position from "../../core/position_component.mjs";
 import { WIDTH, HEIGHT, FIELD_HEIGHT, FIELD_WIDTH } from "../../core/globals.mjs";
 import Collider from "../../core/collision_component.mjs";
 import Stage from "../../core/stage.mjs";
+import Component from "../../core/component.mjs";
 
-const KILLZONE_PADDING = -20;
+const KILLZONE_PADDING = 20;
 const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2 - KILLZONE_PADDING;
 const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2 + KILLZONE_PADDING;
 const UPPER_BOUND = HEIGHT / 2 - FIELD_HEIGHT / 2 - KILLZONE_PADDING;
@@ -26,6 +26,7 @@ export default class ProjectileLogic extends Component {
         this.collider = parent.getComponent(Collider);
         this.removeSelf = () => {
             scene.removeEntity(parent);
+            scene.removeCollider(this.collider);
         };
     }
     tick() {

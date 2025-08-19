@@ -13,9 +13,12 @@ export default function createEnemy(scene, x, y, id) {
     const entity = new Entity();
     entity.addComponent(new Position(x, y));
     entity.addComponent(new Line(entity, 0, 0, 0, 0)); // make data-driven
-    entity.addComponent(new Collider(entity, 7));
+
+    const collider = new Collider(entity, 7, 1);
+    entity.addComponent(collider);
     entity.addComponent(new ColliderVisual(entity));
 
-    scene.addEnemy(entity);
+    scene.addEntity(entity);
+    scene.addCollider(collider);
     return entity;
 }

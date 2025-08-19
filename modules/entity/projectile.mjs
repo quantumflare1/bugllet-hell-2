@@ -19,11 +19,14 @@ export default function createProjectile(scene, x, y, id) {
     entity.addComponent(new Position(x, y));
     entity.addComponent(new Velocity(entity, 0, -5));
     entity.addComponent(new Line(entity, 0, 0, 0, 0)); // make data-driven
-    entity.addComponent(new Collider(entity, 2));
+    
+    const collider = new Collider(entity, 2, 1);
+    entity.addComponent(collider);
     entity.addComponent(new ColliderVisual(entity));
 
     entity.addComponent(new ProjectileLogic(entity, scene));
 
-    scene.addProjectile(entity);
+    scene.addEntity(entity);
+    scene.addCollider(collider);
     return entity;
 }

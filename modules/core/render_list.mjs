@@ -5,7 +5,7 @@ import Renderable from "./render_component.mjs";
  */
 
 export default class RenderList {
-    #values = [];
+    #values = new Map();
     length = 0;
 
     /**
@@ -14,33 +14,15 @@ export default class RenderList {
      * @returns The new length of the list.
      */
     add(element) {
-        if (this.length === 0) {
-            this.#values[0] = element;
-            return ++this.length;
+        if (this.#values.has(element.z))
+            this.#values.get(element.z).add(element);
+        else {
+            const set = new Set();
+            this.#values.set(element.z, set);
+            set.add(element);
         }
-        let l = 0;
-        let r = this.length;
 
-        console.log("added")
-        while (true) {
-            let mid = (l + r) >> 1;
-            if (element.z < this.#values[mid].z)
-                r = mid;
-            else if (element.z > this.#values[mid].z)
-                l = mid;
-            else {
-                this.#values.splice(mid, 0, element);
-                break;
-            }
-            if (mid === this.length - 1) {
-                this.#values.push(element);
-                break;
-            }
-            else if (mid === 0) {
-                this.#values.splice(0, 0, element);
-                break;
-            }
-        }
+        console.log("added");
         return ++this.length;
     }
     /**
@@ -49,28 +31,17 @@ export default class RenderList {
      * @returns The new length of the list.
      */
     delete(element) {
-        let l = 0;
-        let r = this.length;
+        this.#values.get(element.z)?.delete(element);
 
-        while (true) {
-            let mid = (l + r) >> 1;
-            if (element.z < this.#values[mid].z)
-                r = mid;
-            else if (element.z > this.#values[mid].z)
-                l = mid;
-            else {
-                this.#values.splice(mid, 1);
-                break;
-            }
-            if (l >= r - 1) {
-                this.#values.splice(mid, 1);
-                break;
-            }
-        }
+        console.log("removed");
         return --this.length;
     }
     [Symbol.iterator]() {
-        const values = this.#values;
-        return (function* () { for (const i of values) yield i; })();
+        const map = this.#values;
+        return (function* () {
+            for (const i of map.values()) 
+                for (const j of i) 
+                    yield j;
+        })();
     }
 }
