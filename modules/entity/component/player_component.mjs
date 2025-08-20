@@ -7,11 +7,11 @@ import Stage from "../../core/stage.mjs";
 import Velocity from "../../core/velocity_component.mjs";
 import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
 import createProjectile from "../projectile.mjs";
+import Life from "./life_component.mjs";
 
-const BASE_MAX_VEL = 1.5;
+const BASE_MAX_VEL = 2;
 const ACCELERATION = 0.5;
-const BASE_FOCUS_VEL = 0.6;
-const BASE_LIVES = 30;
+const BASE_FOCUS_VEL = 1;
 const BASE_INV_TIME = 40;
 
 const BASE_FIRE_COOLDOWN = 10;
@@ -26,11 +26,10 @@ export default class PlayerLogic extends Component {
     vel;
     input;
     collider;
+    life;
     #fireCooldown = 0;
     #bullets;
-    #lives = BASE_LIVES;
     #invTime = -1;
-    #alive = true;
 
     /**
      * Creates a new PlayerLogic.
@@ -43,6 +42,8 @@ export default class PlayerLogic extends Component {
         this.vel = parent.getComponent(Velocity);
         this.input = parent.getComponent(KeyboardInput);
         this.collider = parent.getComponent(Collider);
+        this.life = parent.getComponent(Life);
+        
         this.#bullets = scene.bulletManager;
 
         this.createProjectile = (id) => {
@@ -50,7 +51,7 @@ export default class PlayerLogic extends Component {
         }
     }
     tick() {
-        if (!this.#alive) return;
+        if (!this.life.alive) return;
 
         // movement
         if (this.input.holdingKey("ArrowLeft")) this.vel.addX(-ACCELERATION);
@@ -104,14 +105,13 @@ export default class PlayerLogic extends Component {
         // collision
         for (const i of this.#bullets) {
             if (this.collider.collidesWith(i.collider)) {
-                this.#lives -= i.damage.getAmount();
+                this.life.damage(i.damage);
                 this.#invTime = BASE_INV_TIME;
                 this.collider.toggle(false);
                 this.notify();
                 break;
             }
         }
-        if (this.#lives === 0) this.#alive = false;
         if (this.#invTime >= 0) this.#invTime--;
         if (this.#invTime === 0) this.collider.toggle(true);
 
@@ -124,8 +124,5 @@ export default class PlayerLogic extends Component {
         }
         if (this.#fireCooldown > 0)
             this.#fireCooldown--;
-    }
-    getLives() {
-        return this.#lives;
     }
 }

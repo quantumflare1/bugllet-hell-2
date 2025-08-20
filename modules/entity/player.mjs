@@ -7,8 +7,10 @@ import Position from "../core/position_component.mjs";
 import Scene from "../core/scene.mjs";
 import Velocity from "../core/velocity_component.mjs";
 import PlayerLogic from "./component/player_component.mjs";
+import Life from "./component/life_component.mjs";
 
 const HITBOX_RADIUS = 4;
+const MAX_LIFE = 30;
 
 /**
  * Creates a new player.
@@ -23,6 +25,7 @@ export default function createPlayer(scene, x, y) {
     entity.addComponent(new Line(entity, 0, 0, 0, 0));
     entity.addComponent(new Collider(entity, HITBOX_RADIUS));
     entity.addComponent(new ColliderVisual(entity));
+    entity.addComponent(new Life(MAX_LIFE, MAX_LIFE));
 
     const input = new KeyboardInput();
     entity.addComponent(input);

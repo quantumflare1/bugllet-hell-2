@@ -23,10 +23,10 @@ export default function createProjectile(scene, x, y, id) {
     entity.addComponent(new Velocity(entity, 0, -BASE_DEFAULT_SPEED));
     entity.addComponent(new Line(entity, 0, 0, 0, 0)); // make data-driven
     
-    const collider = new Collider(entity, 2, 1);
+    const collider = new Collider(entity, 2, 2, 1);
     entity.addComponent(collider);
     entity.addComponent(new ColliderVisual(entity));
-    entity.addComponent(new Damage(1));
+    entity.addComponent(new Damage(20));
 
     const logic = new ProjectileLogic(entity, scene);
     entity.addComponent(logic);
