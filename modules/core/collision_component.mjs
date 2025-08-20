@@ -5,6 +5,7 @@ import Line from "./line_component.mjs";
 export default class Collider extends Component {
     line;
     #layer;
+    #collidesWithLayer;
     #radius;
     #enabled = true;
 
@@ -13,10 +14,11 @@ export default class Collider extends Component {
      * @param {Entity} parent The entity this component is attached to.
      * @param {number} rad The radius of this collider.
      */
-    constructor(parent, rad, layer = 0) {
+    constructor(parent, rad, layer = 0, collideLayer = 0) {
         super();
         this.#radius = rad;
         this.#layer = layer;
+        this.#collidesWithLayer = collideLayer;
         this.line = parent.getComponent(Line);
     }
     /**
@@ -25,7 +27,7 @@ export default class Collider extends Component {
      */
     collidesWith(other) {
         // implement collision logic here
-        if (!this.#enabled) return false;
+        if (!this.#enabled || other.#layer !== this.#collidesWithLayer || this === other) return false;
         const radSum = this.#radius + other.#radius;
         if (this.line.distToSegment(other.line) < radSum) {
             this.notify();

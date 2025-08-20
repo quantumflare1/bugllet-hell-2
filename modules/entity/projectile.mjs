@@ -5,7 +5,10 @@ import Position from "../core/position_component.mjs";
 import Stage from "../core/stage.mjs";
 import Velocity from "../core/velocity_component.mjs";
 import ColliderVisual from "./component/collider_visual_component.mjs";
+import Damage from "./component/damage_component.mjs";
 import ProjectileLogic from "./component/projectile_component.mjs";
+
+const BASE_DEFAULT_SPEED = 10;
 
 /**
  * Creates a new projectile.
@@ -17,16 +20,17 @@ import ProjectileLogic from "./component/projectile_component.mjs";
 export default function createProjectile(scene, x, y, id) {
     const entity = new Entity();
     entity.addComponent(new Position(x, y));
-    entity.addComponent(new Velocity(entity, 0, -5));
+    entity.addComponent(new Velocity(entity, 0, -BASE_DEFAULT_SPEED));
     entity.addComponent(new Line(entity, 0, 0, 0, 0)); // make data-driven
     
     const collider = new Collider(entity, 2, 1);
     entity.addComponent(collider);
     entity.addComponent(new ColliderVisual(entity));
+    entity.addComponent(new Damage(1));
 
-    entity.addComponent(new ProjectileLogic(entity, scene));
+    const logic = new ProjectileLogic(entity, scene);
+    entity.addComponent(logic);
 
     scene.addEntity(entity);
-    scene.addCollider(collider);
     return entity;
 }

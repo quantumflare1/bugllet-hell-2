@@ -12,10 +12,8 @@ export default class Scene {
      */
     addEntity(entity) {
         this.entities.add(entity);
-        entity.components.forEach((v) => {
-            if (v instanceof Renderable)
-                this.renderList.add(v);
-        });
+        const component = entity.getComponentOfType(Renderable);
+        if (component !== null) this.renderList.add(component);
     }
     /**
      * Removes an entity from this scene.
@@ -23,10 +21,8 @@ export default class Scene {
      */
     removeEntity(entity) {
         this.entities.delete(entity);
-        entity.components.forEach((v) => {
-            if (v instanceof Renderable)
-                this.renderList.delete(v);
-        });
+        const component = entity.getComponentOfType(Renderable);
+        if (component !== null) this.renderList.delete(component);
     }
     tick() {
         for (const i of this.entities) {

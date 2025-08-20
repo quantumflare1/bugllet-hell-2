@@ -4,6 +4,7 @@ import { WIDTH, HEIGHT, FIELD_HEIGHT, FIELD_WIDTH } from "../../core/globals.mjs
 import Collider from "../../core/collision_component.mjs";
 import Stage from "../../core/stage.mjs";
 import Component from "../../core/component.mjs";
+import Damage from "./damage_component.mjs";
 
 const KILLZONE_PADDING = 20;
 const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2 - KILLZONE_PADDING;
@@ -14,6 +15,7 @@ const LOWER_BOUND = HEIGHT / 2 + FIELD_HEIGHT / 2 + KILLZONE_PADDING;
 export default class ProjectileLogic extends Component {
     pos;
     collider;
+    damage;
 
     /**
      * 
@@ -24,15 +26,15 @@ export default class ProjectileLogic extends Component {
         super();
         this.pos = parent.getComponent(Position);
         this.collider = parent.getComponent(Collider);
+        this.damage = parent.getComponent(Damage);
         this.removeSelf = () => {
             scene.removeEntity(parent);
-            scene.removeCollider(this.collider);
-        };
+        }
     }
     tick() {
         const rad = this.collider.getRadius();
-        if (this.pos.getX() - rad < LEFT_BOUND || this.pos.getX() + rad > RIGHT_BOUND ||
-        this.pos.getY() - rad < UPPER_BOUND || this.pos.getY() + rad > LOWER_BOUND)
+        if (this.pos.getX() + rad < LEFT_BOUND || this.pos.getX() - rad > RIGHT_BOUND ||
+        this.pos.getY() + rad < UPPER_BOUND || this.pos.getY() - rad > LOWER_BOUND)
             this.removeSelf();
     }
 }

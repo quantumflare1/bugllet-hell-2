@@ -6,6 +6,7 @@ import Position from "../core/position_component.mjs";
 import Stage from "../core/stage.mjs";
 import Velocity from "../core/velocity_component.mjs";
 import ProjectileLogic from "./component/projectile_component.mjs";
+import Damage from "./component/damage_component.mjs";
 
 /**
  * 
@@ -23,10 +24,10 @@ export default function createBullet(scene, x, y, id) {
     const collider = new Collider(entity, 5, 0);
     entity.addComponent(collider);
     entity.addComponent(new ColliderVisual(entity));
+    entity.addComponent(new Damage(1));
 
     entity.addComponent(new ProjectileLogic(entity, scene));
 
     scene.addEntity(entity);
-    scene.addCollider(collider);
     return entity;
 }

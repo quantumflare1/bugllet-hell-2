@@ -19,6 +19,5 @@ export default function createEnemy(scene, x, y, id) {
     entity.addComponent(new ColliderVisual(entity));
 
     scene.addEntity(entity);
-    scene.addCollider(collider);
     return entity;
 }

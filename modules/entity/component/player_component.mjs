@@ -14,6 +14,8 @@ const BASE_FOCUS_VEL = 0.6;
 const BASE_LIVES = 30;
 const BASE_INV_TIME = 40;
 
+const BASE_FIRE_COOLDOWN = 10;
+
 const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2;
 const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2;
 const UPPER_BOUND = HEIGHT / 2 - FIELD_HEIGHT / 2;
@@ -24,6 +26,7 @@ export default class PlayerLogic extends Component {
     vel;
     input;
     collider;
+    #fireCooldown = 0;
     #bullets;
     #lives = BASE_LIVES;
     #invTime = -1;
@@ -40,7 +43,7 @@ export default class PlayerLogic extends Component {
         this.vel = parent.getComponent(Velocity);
         this.input = parent.getComponent(KeyboardInput);
         this.collider = parent.getComponent(Collider);
-        this.#bullets = scene.colliderManager;
+        this.#bullets = scene.bulletManager;
 
         this.createProjectile = (id) => {
             createProjectile(scene, this.pos.getX(), this.pos.getY(), id);
@@ -100,8 +103,8 @@ export default class PlayerLogic extends Component {
 
         // collision
         for (const i of this.#bullets) {
-            if (i.getLayer() === this.collider.getLayer() && this.collider.collidesWith(i)) {
-                this.#lives--;
+            if (this.collider.collidesWith(i.collider)) {
+                this.#lives -= i.damage.getAmount();
                 this.#invTime = BASE_INV_TIME;
                 this.collider.toggle(false);
                 this.notify();
@@ -114,8 +117,13 @@ export default class PlayerLogic extends Component {
 
         // firing
         if (this.input.holdingKey("z") || this.input.holdingKey("Shift") && this.input.holdingKey("Z")) {
-            this.createProjectile(0 /* whatever */);
+            if (this.#fireCooldown === 0) {
+                this.createProjectile(0 /* whatever */);
+                this.#fireCooldown = BASE_FIRE_COOLDOWN;
+            }
         }
+        if (this.#fireCooldown > 0)
+            this.#fireCooldown--;
     }
     getLives() {
         return this.#lives;

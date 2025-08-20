@@ -29,6 +29,17 @@ export default class Entity {
     getComponent(comp) {
         return this.components.get(comp);
     }
+    /**
+     * Gets this Entity's component or subcomponent, if it exists.
+     * @param {constructor} comp A component.
+     * @returns The component instance, or null if it does not exist.
+     */
+    getComponentOfType(comp) {
+        for (const i of this.components.values()) {
+            if (i instanceof comp) return i;
+        }
+        return null;
+    }
     tick() {
         this.components.forEach((v) => {
             v.tick();

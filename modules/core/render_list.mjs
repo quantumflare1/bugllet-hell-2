@@ -22,7 +22,6 @@ export default class RenderList {
             set.add(element);
         }
 
-        console.log("added");
         return ++this.length;
     }
     /**
@@ -33,7 +32,6 @@ export default class RenderList {
     delete(element) {
         this.#values.get(element.z)?.delete(element);
 
-        console.log("removed");
         return --this.length;
     }
     [Symbol.iterator]() {
