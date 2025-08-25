@@ -1,10 +1,11 @@
 import Component from "./component.mjs";
 import Entity from "./entity.mjs";
 import Position from "./position_component.mjs";
+import Vector from "./vector.mjs";
 
 export default class Velocity extends Component {
     pos; 
-    #x; #y;
+    #vel;
 
     /**
      * Creates a new Velocity.
@@ -15,33 +16,32 @@ export default class Velocity extends Component {
     constructor(parent, x = 0, y = 0) {
         super();
         this.pos = parent.getComponent(Position);
-        this.#x = x;
-        this.#y = y;
+        this.#vel = new Vector(x, y);
     }
     tick() {
-        this.pos.addX(this.#x);
-        this.pos.addY(this.#y);
+        this.pos.addX(this.#vel.getX());
+        this.pos.addY(this.#vel.getY());
     }
     getX() {
-        return this.#x;
+        return this.#vel.getX();
     }
     getY() {
-        return this.#y;
+        return this.#vel.getY();
     }
     addX(x) {
-        this.#x += x;
+        this.#vel = this.#vel.add(new Vector(x, 0));
         this.notify();
     }
     addY(y) {
-        this.#y += y;
+        this.#vel = this.#vel.add(new Vector(0, y));
         this.notify();
     }
     setX(x) {
-        this.#x = x;
+        this.#vel = new Vector(x, this.#vel.getY());
         this.notify();
     }
     setY(y) {
-        this.#y = y;
+        this.#vel = new Vector(this.#vel.getX(), y);
         this.notify();
     }
 }

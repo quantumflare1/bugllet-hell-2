@@ -1,33 +1,33 @@
 import Component from "./component.mjs";
+import Vector from "./vector.mjs";
 
 export default class Position extends Component {
-    #x; #y;
+    #vec;
 
     constructor(x, y) {
         super();
-        this.#x = x;
-        this.#y = y;
+        this.#vec = new Vector(x, y);
     }
     setX(x) {
-        this.#x = x;
+        this.#vec = new Vector(x, this.#vec.getY());
         this.notify();
     }
     setY(y) {
-        this.#y = y;
+        this.#vec = new Vector(this.#vec.getX(), y);
         this.notify();
     }
     addX(x) {
-        this.#x += x;
+        this.#vec = this.#vec.add(new Vector(x, 0));
         this.notify();
     }
     addY(y) {
-        this.#y += y;
+        this.#vec = this.#vec.add(new Vector(0, y));
         this.notify();
     }
     getX() {
-        return this.#x;
+        return this.#vec.getX();
     }
     getY() {
-        return this.#y;
+        return this.#vec.getY();
     }
 }

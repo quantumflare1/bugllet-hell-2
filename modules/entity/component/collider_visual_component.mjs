@@ -21,8 +21,8 @@ export default class ColliderVisual extends Renderable {
         const line = this.collider.line;
 
         ctx.beginPath();
-        ctx.moveTo(line.getX1() + line.ref.getX(), line.getY1() + line.ref.getY());
-        ctx.lineTo(line.getX2() + line.ref.getX(), line.getY2() + line.ref.getY());
+        ctx.moveTo(line.getStartX() + line.ref.getX(), line.getStartY() + line.ref.getY());
+        ctx.lineTo(line.getEndX() + line.ref.getX(), line.getEndY() + line.ref.getY());
         ctx.stroke();
         ctx.closePath();
     }
