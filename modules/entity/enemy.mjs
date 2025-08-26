@@ -5,7 +5,8 @@ import Position from "../core/position_component.mjs";
 import Stage from "../core/stage.mjs";
 import Velocity from "../core/velocity_component.mjs";
 import ColliderVisual from "./component/collider_visual_component.mjs";
-import EnemyLogic from "./component/enemy_component.mjs";
+//import EnemyLogic from "./component/enemy_component.mjs";
+import EnemyLogic from "../behavior/test_enemy.mjs";
 import Life from "./component/life_component.mjs";
 
 const DEFAULT_MAX_LIFE = 100;

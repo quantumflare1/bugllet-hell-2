@@ -1,3 +1,6 @@
 {
-    
+    "onspawn": {
+        "func": "generateSquarePath",
+        "params": [200]
+    }
 }

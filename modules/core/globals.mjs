@@ -5,3 +5,5 @@ export const WIDTH = 640;
 export const HEIGHT = 360;
 export const FIELD_WIDTH = 360;
 export const FIELD_HEIGHT = 360;
+export const X_OFFSET = 140;
+export const Y_OFFSET = 0;

@@ -5,7 +5,7 @@ import KeyboardInput from "../../core/keyboard_component.mjs";
 import Position from "../../core/position_component.mjs";
 import Stage from "../../core/stage.mjs";
 import Velocity from "../../core/velocity_component.mjs";
-import { WIDTH, HEIGHT, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
+import { X_OFFSET, Y_OFFSET, FIELD_WIDTH, FIELD_HEIGHT } from "../../core/globals.mjs";
 import createProjectile from "../projectile.mjs";
 import Life from "./life_component.mjs";
 
@@ -16,10 +16,10 @@ const BASE_INV_TIME = 40;
 
 const BASE_FIRE_COOLDOWN = 10;
 
-const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2;
-const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2;
-const UPPER_BOUND = HEIGHT / 2 - FIELD_HEIGHT / 2;
-const LOWER_BOUND = HEIGHT / 2 + FIELD_HEIGHT / 2;
+const LEFT_BOUND = X_OFFSET;
+const RIGHT_BOUND = X_OFFSET + FIELD_WIDTH;
+const UPPER_BOUND = Y_OFFSET;
+const LOWER_BOUND = Y_OFFSET + FIELD_HEIGHT;
 
 export default class PlayerLogic extends Component {
     pos;

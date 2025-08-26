@@ -1,16 +1,16 @@
 import Entity from "../../core/entity.mjs";
 import Position from "../../core/position_component.mjs";
-import { WIDTH, HEIGHT, FIELD_HEIGHT, FIELD_WIDTH } from "../../core/globals.mjs";
+import { X_OFFSET, Y_OFFSET, FIELD_HEIGHT, FIELD_WIDTH } from "../../core/globals.mjs";
 import Collider from "../../core/collision_component.mjs";
 import Stage from "../../core/stage.mjs";
 import Component from "../../core/component.mjs";
 import Damage from "./damage_component.mjs";
 
 const KILLZONE_PADDING = 20;
-const LEFT_BOUND = WIDTH / 2 - FIELD_WIDTH / 2 - KILLZONE_PADDING;
-const RIGHT_BOUND = WIDTH / 2 + FIELD_WIDTH / 2 + KILLZONE_PADDING;
-const UPPER_BOUND = HEIGHT / 2 - FIELD_HEIGHT / 2 - KILLZONE_PADDING;
-const LOWER_BOUND = HEIGHT / 2 + FIELD_HEIGHT / 2 + KILLZONE_PADDING;
+const LEFT_BOUND = X_OFFSET - KILLZONE_PADDING;
+const RIGHT_BOUND = X_OFFSET + FIELD_WIDTH + KILLZONE_PADDING;
+const UPPER_BOUND = Y_OFFSET - KILLZONE_PADDING;
+const LOWER_BOUND = Y_OFFSET + FIELD_HEIGHT + KILLZONE_PADDING;
 
 export default class ProjectileLogic extends Component {
     pos;
